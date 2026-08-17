@@ -1,12 +1,25 @@
 ﻿@page "/addUsers";
+@page "/addUsers/{id}";
 
 <h3>AddUsers</h3>
 
+@if(!string.IsNullOrEmpty(Id))
+{
+    <div>
+        the id is @Id
+    </div>
+
+}
 Meh
 
 <button @onclick="Test">Click me</button>
 
+
+
 @code {
+
+    [Parameter]
+    public string Id { get; set; }
 
     public async Task Test()
     {

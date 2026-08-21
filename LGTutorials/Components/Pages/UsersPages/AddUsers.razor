@@ -1,5 +1,5 @@
 ﻿@page "/addUsers";
-@page "/addUsers/{id}";
+@page "/addUsers/{id}"
 
 <h3>AddUsers</h3>
 
@@ -15,14 +15,23 @@ Meh
 <button @onclick="Test">Click me</button>
 
 
+@if(openModel){
+    <div class="model">
+        test
+    </div>
+}
+
+
 
 @code {
 
     [Parameter]
     public string Id { get; set; }
 
+    public bool openModel { get; set; } = false;
+
     public async Task Test()
     {
-        
+        openModel = true;
     }
 }

@@ -1,0 +1,61 @@
+﻿@page "/uploads"
+
+<h3>Upload Users</h3>
+
+<div class="container mt-4" style="max-width: 500px;">
+    <div class="mb-3">
+        <label class="form-label fw-bold">Upload Document</label>
+
+        <!-- 💡 FIX: Use Blazor's native <InputFile> instead of <input type="file"> -->
+        <!-- Pass the class directly to keep your Bootstrap styling -->
+        <InputFile class="form-control" OnChange="OnInputFileChange" />
+
+        <div class="form-text">Accepted formats: CSV, XLSX (Max 5MB).</div>
+    </div>
+
+    <button type="button" class="btn btn-primary w-100" @onclick="HandleUpload">
+        Upload File
+    </button>
+</div>
+
+@code {
+    private IBrowserFile? selectedFile;
+
+    // 💡 FIX: Parameter must be 'InputFileChangeEventArgs'
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        // Directly extract the file via the arguments property
+        selectedFile = e.File;
+
+        Console.WriteLine($"Selected file: {selectedFile.Name}");
+    }
+
+    public async Task HandleUpload()
+    {
+        if (selectedFile == null)
+        {
+            Console.WriteLine("Please select a file first.");
+            return;
+        }
+
+        try
+        {
+            // Stream the file with your 5MB limit rule
+            using var stream = selectedFile.OpenReadStream(maxAllowedSize: 5120 * 1024);
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", selectedFile.Name);
+
+            // Ensure the directory exists
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+
+            using var fileStream = File.Create(path);
+            await stream.CopyToAsync(fileStream);
+
+            Console.WriteLine("Upload completed successfully!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Upload failed: {ex.Message}");
+        }
+    }
+}

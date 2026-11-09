@@ -1,4 +1,6 @@
 ﻿@page "/Users";
+@using LGTutorials.Models
+
 
 
 <h3>Users</h3>
@@ -6,6 +8,47 @@
 
 <a href="/addUsers">Add Users</a>
 
+<EditForm Model="game" OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText @bind-Value="game.Title" />
+    <ValidationMessage For="() => game.Title" />
+
+    <InputNumber @bind-Value="game.Year" />
+
+    <button type="submit">Add</button>
+</EditForm>
+
+<button @onclick="Clear">Clear</button>
+
+@if (ok)
+{
+    <div>
+        Title: @game.Title, Year: @game.Year
+    </div>
+}
+
+
+
+
 @code {
 
+    bool ok = false;
+
+    private GameSuggestion game = new();
+
+    private void Submit()
+    {
+        Console.WriteLine($"Title: {game.Title}, Year: {game.Year}");
+        ok = true;
+    }
+
+    private void Clear()
+    {
+        game = new();
+
+        ok = false;
+
+    }
 }

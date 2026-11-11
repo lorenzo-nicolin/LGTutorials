@@ -29,26 +29,37 @@
     </div>
 }
 
+@foreach (var g in games)
+{
+    <GameCard Game="g" OnRemove="RemoveGame" />
+}
+
 
 
 
 @code {
 
     bool ok = false;
-
     private GameSuggestion game = new();
+    private List<GameSuggestion> games = new();
 
     private void Submit()
     {
+        games.Add(game);
+        game = new();   // reset the form
+
         Console.WriteLine($"Title: {game.Title}, Year: {game.Year}");
         ok = true;
     }
+  
+    private void Clear()    {
 
-    private void Clear()
-    {
         game = new();
-
         ok = false;
+    }
 
+    private void RemoveGame(GameSuggestion g)
+    {
+        games.Remove(g);
     }
 }

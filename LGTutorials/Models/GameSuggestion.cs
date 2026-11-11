@@ -11,6 +11,6 @@ namespace LGTutorials.Models
 
         [Required]
         [Range(1970, 2026, ErrorMessage = "Enter a valid release year.")]
-        public int? Year { get; set; }
+        public int? Year { get; set; } = DateTime.Now.Year;
     }
 }

@@ -1,0 +1,14 @@
+﻿
+
+<div class="card">
+    <strong>@Game.Title</strong> (@Game.Year)
+    <button @onclick="() => OnRemove.InvokeAsync(Game)">Remove</button>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public GameSuggestion Game { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<GameSuggestion> OnRemove { get; set; }
+}

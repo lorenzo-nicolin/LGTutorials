@@ -34,6 +34,15 @@
     <GameCard Game="g" OnRemove="RemoveGame" />
 }
 
+<ItemList Items="games">
+    <ItemTemplate Context="g">
+        <strong>@g.Title</strong> (@g.Year)
+    </ItemTemplate>
+    <EmptyContent>
+        <p>No games yet.</p>
+    </EmptyContent>
+</ItemList>
+
 
 
 

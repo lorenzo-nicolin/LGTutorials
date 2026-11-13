@@ -1,0 +1,22 @@
+﻿@* Components/ItemList.razor *@
+@typeparam TItem
+
+@if (Items is null || !Items.Any())
+{
+    @EmptyContent
+}
+else
+{
+    <ul>
+        @foreach (var item in Items)
+        {
+            <li>@ItemTemplate(item)</li>
+        }
+    </ul>
+}
+
+@code {
+    [Parameter] public IEnumerable<TItem>? Items { get; set; }
+    [Parameter] public RenderFragment<TItem> ItemTemplate { get; set; } = default!;
+    [Parameter] public RenderFragment? EmptyContent { get; set; }
+}

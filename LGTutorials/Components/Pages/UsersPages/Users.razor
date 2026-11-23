@@ -8,6 +8,9 @@
 
 <a href="/addUsers">Add Users</a>
 
+<input @bind="searchText" @bind:event="oninput" placeholder="Search games..." />
+
+
 <EditForm Model="game" OnValidSubmit="Submit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -44,6 +47,14 @@
 </ItemList>
 
 
+<ul>
+    @foreach (var g in FilteredGames)
+    {
+        <li>@g.Title (@g.Year)</li>
+    }
+</ul>
+
+
 
 
 @code {
@@ -51,6 +62,12 @@
     bool ok = false;
     private GameSuggestion game = new();
     private List<GameSuggestion> games = new();
+
+    private string searchText = string.Empty;
+
+    private IEnumerable<GameSuggestion> FilteredGames => string.IsNullOrWhiteSpace(searchText)
+        ? games
+        : games.Where(g => g.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase));
 
     private void Submit()
     {
